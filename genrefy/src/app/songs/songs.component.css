@@ -1,0 +1,61 @@
+/* songs.component.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* This will make the container take at least the full height of the viewport */
+  width: 100%; /* This will make the container take the full width of its parent element */
+  box-sizing: border-box;
+  padding: 20px;
+  gap: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 25%; /* adjust as needed */
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 25px 60px; /* larger buttons */
+  font-size: 1.2em; /* larger font */
+}
+
+.songs-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.song-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 80%;
+  margin-bottom: 20px;
+  padding: 10px;
+  color: white;
+}
+
+.song-artist {
+  margin-top: 10px;
+}
+
+mat-card-title {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  color: white;
+}
+
+
+.totalSongs {
+  font-size: 40px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  color: white;
+}
