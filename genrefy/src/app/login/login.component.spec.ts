@@ -48,5 +48,13 @@ describe('LoginComponent', () => {
     expect(typeof component.clientId).toEqual('string');
     expect(component.clientId.length).toBeGreaterThan(0);
   });
-  
+
+  it('should redirect to auth code flow if no code', () => {
+    component.code = null;
+    component.ngOnInit();
+    expect(mockLoginService.redirectToAuthCodeFlow).toHaveBeenCalled();
+  });
+
+
+
 });
