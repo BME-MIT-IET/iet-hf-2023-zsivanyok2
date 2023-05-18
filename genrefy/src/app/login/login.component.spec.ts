@@ -66,5 +66,23 @@ describe('LoginComponent', () => {
     await component.ngOnInit();
     expect(localStorage.getItem('access_token')).toEqual('mockAccessToken');
   });
-  
+
+  it('should fetch profile if code', async () => {
+    component.code = 'mockCode';
+    await component.ngOnInit();
+    expect(mockLoginService.fetchProfile).toHaveBeenCalled();
+  });
+
+  it('should save user id to local storage if code', async () => {
+    component.code = 'mockCode';
+    await component.ngOnInit();
+    expect(localStorage.getItem('user_id')).toEqual('mockUserId');
+  });
+
+  it('should navigate to songs page if code', async () => {
+    component.code = 'mockCode';
+    await component.ngOnInit();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/songs']);
+  });
+
 });
