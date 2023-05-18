@@ -55,6 +55,10 @@ describe('LoginComponent', () => {
     expect(mockLoginService.redirectToAuthCodeFlow).toHaveBeenCalled();
   });
 
-
+  it('should get access token if code', async () => {
+    component.code = 'mockCode';
+    await component.ngOnInit();
+    expect(mockLoginService.getAccessToken).toHaveBeenCalled();
+  });
 
 });
