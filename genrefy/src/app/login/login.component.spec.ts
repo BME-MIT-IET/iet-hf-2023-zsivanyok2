@@ -61,4 +61,10 @@ describe('LoginComponent', () => {
     expect(mockLoginService.getAccessToken).toHaveBeenCalled();
   });
 
+  it('should save access token to local storage if code', async () => {
+    component.code = 'mockCode';
+    await component.ngOnInit();
+    expect(localStorage.getItem('access_token')).toEqual('mockAccessToken');
+  });
+  
 });
