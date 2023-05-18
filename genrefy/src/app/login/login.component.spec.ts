@@ -43,5 +43,10 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
+  it('should have a clientId', () => {
+    expect(component.clientId).toBeTruthy();
+    expect(typeof component.clientId).toEqual('string');
+    expect(component.clientId.length).toBeGreaterThan(0);
+  });
+  
 });
