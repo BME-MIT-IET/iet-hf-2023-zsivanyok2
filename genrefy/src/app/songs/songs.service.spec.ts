@@ -31,5 +31,20 @@ describe('SongsService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  // Other tests go here...
+
+  it('#addTracksToPlaylist should make a POST request to add tracks to a playlist', () => {
+    const mockAccessToken = 'testAccessToken';
+    const mockPlaylistId = 'testPlaylistId';
+    const mockTrackUris = ['spotify:track:testTrackId1', 'spotify:track:testTrackId2'];
+    const mockResponse = { snapshot_id: 'testSnapshotId' };
+
+    service.addTracksToPlaylist(mockAccessToken, mockPlaylistId, mockTrackUris).subscribe(response => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const request = httpTestingController.expectOne(`https://api.spotify.com/v1/playlists/${mockPlaylistId}/tracks`);
+    expect(request.request.method).toBe('POST');
+    expect(request.request.headers.get('Authorization')).toEqual('Bearer ' + mockAccessToken);
+    request.flush(mockResponse);
+  });
 });
