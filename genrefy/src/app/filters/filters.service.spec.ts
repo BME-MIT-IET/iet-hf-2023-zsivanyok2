@@ -26,5 +26,27 @@ describe('FiltersService', () => {
     expect(service).toBeTruthy();
   });
 
+  
+  it('#fetchLikedTracksWithGenres should return liked tracks with genres', async () => {
+    const mockAccessToken = 'testAccessToken';
+    const mockLikedTracks = [
+      { songName: 'Test Song 1', artistName: 'Test Artist 1', artistId: 'testArtistId1', uri: 'spotify:track:testSongId1' },
+      { songName: 'Test Song 2', artistName: 'Test Artist 2', artistId: 'testArtistId2', uri: 'spotify:track:testSongId2' },
+    ];
+    const mockArtistsData = [
+      { id: 'testArtistId1', genres: ['pop', 'rock'] },
+      { id: 'testArtistId2', genres: ['jazz', 'blues'] },
+    ];
+
+    mockSongsService.getLikedTracksFromLocalStorage.and.returnValue(mockLikedTracks); // Set the return value here instead
+    spyOn(service, 'getArtistsFromLocalStorage').and.returnValue([]);
+    spyOn(service, 'fetchArtists').and.returnValue(Promise.resolve(mockArtistsData));
+
+    const result = await service.fetchLikedTracksWithGenres(mockAccessToken);
+
+    expect(result[0].genres).toEqual(['pop', 'rock']);
+    expect(result[1].genres).toEqual(['jazz', 'blues']);
+  });
+
   // Additional tests...
 });
