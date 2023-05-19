@@ -11,10 +11,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 describe('SongsComponent', () => {
   let component: SongsComponent;
   let fixture: ComponentFixture<SongsComponent>;
+  let songsService: jasmine.SpyObj<SongsService>; // add this line
 
   beforeEach(async () => {
     const mockSongsService = jasmine.createSpyObj('SongsService', ['getLikedTracksFromLocalStorage', 'fetchLikedTracks', 'createPlaylist', 'addTracksToPlaylist']);
     mockSongsService.getLikedTracksFromLocalStorage.and.returnValue([]);
+    songsService = mockSongsService; // add this line
     const mockFiltersService = jasmine.createSpyObj('FiltersService', ['getFilteredSongs']);
     mockFiltersService.getFilteredSongs.and.returnValue([]);
     const mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
@@ -47,5 +49,25 @@ describe('SongsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('#savePlaylist should call SongsService to create playlist and add tracks', () => {
+    const mockAccessToken = 'testAccessToken';
+    spyOn(localStorage, 'getItem').and.returnValue(mockAccessToken);
+    const mockPlaylistName = 'Test Playlist';
+    const mockPlaylistId = 'testPlaylistId';
+    const mockSongUri = 'spotify:track:testSongId';
+    component.songs = [{ uri: mockSongUri }];
+
+    songsService.createPlaylist.and.returnValue(of({ id: mockPlaylistId }));
+    songsService.addTracksToPlaylist.and.returnValue(of({}));
+
+    component.savePlaylist(mockPlaylistName);
+
+    expect(localStorage.getItem).toHaveBeenCalledWith('access_token');
+    expect(songsService.createPlaylist).toHaveBeenCalledWith(mockAccessToken, mockPlaylistName);
+    expect(songsService.addTracksToPlaylist).toHaveBeenCalledWith(mockAccessToken, mockPlaylistId, [mockSongUri]);
+  });
+
+  
 });
 
