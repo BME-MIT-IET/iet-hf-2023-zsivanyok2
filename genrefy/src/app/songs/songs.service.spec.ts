@@ -31,7 +31,7 @@ describe('SongsService', () => {
     httpTestingController.verify(); // Verify that no unmatched requests are outstanding
   });
 
-  it('should be created', () => {
+  it('should create', () => {
     expect(service).toBeTruthy();
   });
 

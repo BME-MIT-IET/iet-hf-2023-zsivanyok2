@@ -49,5 +49,24 @@ describe('FiltersComponent', () => {
   });
 
 
-  // Additional tests...
+  it('#onGenreToggle should add genre if it is not already selected', () => {
+    const testGenre = 'rock';
+    mockFiltersService.filterSongsByGenres.and.returnValue([]);
+  
+    component.onGenreToggle(testGenre);
+  
+    expect(component.selectedGenres.has(testGenre)).toBeTrue();
+    expect(mockFiltersService.filterSongsByGenres).toHaveBeenCalled();
+  });
+  
+  it('#onGenreToggle should remove genre if it is already selected', () => {
+    const testGenre = 'pop';
+    component.selectedGenres.add(testGenre);
+    mockFiltersService.filterSongsByGenres.and.returnValue([]);
+  
+    component.onGenreToggle(testGenre);
+  
+    expect(component.selectedGenres.has(testGenre)).toBeFalse();
+    expect(mockFiltersService.filterSongsByGenres).toHaveBeenCalled();
+  });
 });
