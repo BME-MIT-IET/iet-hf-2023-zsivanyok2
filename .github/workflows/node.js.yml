@@ -25,6 +25,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: genrefy/package-lock.json
+        #package-lock.json must be added manually because it is not present in the root folder
         
     - name: Install dependencies
       run: npm ci
