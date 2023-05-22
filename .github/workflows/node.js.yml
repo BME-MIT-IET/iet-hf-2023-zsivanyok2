@@ -12,7 +12,7 @@ defaults:
     working-directory: genrefy
 
 jobs:
-  build:
+  npm_install_and_build:
     runs-on: ubuntu-latest
 
     strategy:
