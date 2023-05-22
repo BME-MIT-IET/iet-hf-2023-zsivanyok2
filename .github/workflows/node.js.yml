@@ -4,8 +4,9 @@
 name: Genrefy - Node.js CI
 on:
   push:
-    # For testing purposes this actions runs on "actions" branch only when files pushed
-    branches: [ "actions" ]
+    # For testing purposes this actions runs on "github-actions" branch only when files pushed
+    # After testing it must set to the branch containing the release files/version 
+    branches: [ "github-actions" ]
 
 defaults:
   run:
@@ -18,7 +19,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.12.1]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - name: Checkout
