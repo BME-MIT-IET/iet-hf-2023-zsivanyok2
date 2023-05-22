@@ -7,13 +7,17 @@ on:
     # For testing purposes this actions runs on "actions" branch only when files pushed
     branches: [ "actions" ]
 
+defaults:
+  run:
+    working-directory: genrefy
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [18.12.1]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
