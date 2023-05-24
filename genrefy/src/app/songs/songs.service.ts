@@ -66,13 +66,14 @@ export class SongsService {
     offset: number
   ): Promise<any> {
     const url = `https://api.spotify.com/v1/me/tracks?limit=${limit}&offset=${offset}`;
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${accessToken}`
+      })
+    };
 
 
-    return await response.json();
+    return this.http.get(url, options).toPromise();
   }
 
   /**
