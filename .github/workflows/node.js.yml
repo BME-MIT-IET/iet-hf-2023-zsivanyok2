@@ -18,13 +18,11 @@ jobs:
     strategy:
       matrix:
         node-version: [18.12.1]
+        python-version: [3.11]
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    
-    - name: Debug list files in root
-      run: ls
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -33,12 +31,8 @@ jobs:
         cache: 'npm'
         cache-dependency-path: genrefy/package-lock.json
         #package-lock.json must be added manually because it is not present in the root folder
-        
-    - name: Debug list files in genrefy
-      working-directory: ./genrefy
-      run: ls
     
-    - name: Install dependencies
+    - name: Install Node.js dependencies
       working-directory: ./genrefy
       run: npm ci
     
@@ -50,3 +44,40 @@ jobs:
     - name: Build project
       working-directory: ./genrefy
       run: npm run build --if-present
+      
+    # --- UI Testing ---
+    
+    # Install all Python dependencies  
+    - name: Use Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install Python dependencies
+      working-directory: ./genrefy_ui_tests
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+        pip install beautifulsoup4
+        pip install selenium
+    
+    # Install a browser to run ui tests
+    - name: Install latest Google Chrome browser
+      run: |
+        sudo apt update
+        sudo apt --only-upgrade install google-chrome-stable
+        google-chrome --version
+    
+    - name: Start and wait for local Node.js server
+      uses: ./
+      with:
+        working-directory: ./genrefy
+        start: npm start
+        wait-on: 'http://localhost:4200'
+        wait-on-timeout: 100
+        
+    - name: Run Selenium UI tests
+      working-directory: ./genrefy_ui_tests
+      run: python main.py
+      
+    
