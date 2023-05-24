@@ -7,9 +7,9 @@ on:
     # After testing it must set to the branch containing the release files/version 
     branches: [ "github-actions" ]
 
-defaults:
-  run:
-    working-directory: genrefy
+#defaults:
+#  run:
+#    working-directory: genrefy
 
 jobs:
   npm_install_and_build:
@@ -22,6 +22,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    
+    - name: Debug list files in root
+      run: ls
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -31,7 +34,12 @@ jobs:
         cache-dependency-path: genrefy/package-lock.json
         #package-lock.json must be added manually because it is not present in the root folder
         
+    - name: Debug list files in genrefy
+      working-directory: ./genrefy
+      run: ls
+    
     - name: Install dependencies
+      working-directory: ./genrefy
       run: npm ci
     
     # Do we want to use lint-ing?
@@ -40,4 +48,5 @@ jobs:
     #  run: npm run lint
     
     - name: Build project
+      working-directory: ./genrefy
       run: npm run build --if-present
