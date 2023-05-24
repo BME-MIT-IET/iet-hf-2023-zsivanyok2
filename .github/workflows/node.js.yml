@@ -68,6 +68,9 @@ jobs:
         sudo apt --only-upgrade install google-chrome-stable
         google-chrome --version
     
+    - name: Checkout
+      uses: actions/checkout@v3
+      
     - name: Start and wait for local Node.js server
       uses: ./
       with:
