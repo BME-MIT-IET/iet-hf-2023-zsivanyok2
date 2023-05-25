@@ -12,8 +12,8 @@ on:
 #    working-directory: genrefy
 
 jobs:
-  npm_install_and_build:
-    runs-on: ubuntu-latest
+  build_and_tests:
+    runs-on: windows-latest
 
     strategy:
       matrix:
