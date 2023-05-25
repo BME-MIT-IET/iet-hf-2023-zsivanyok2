@@ -52,6 +52,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip'
     
     - name: Install Python dependencies
       working-directory: ./genrefy_ui_tests
@@ -76,7 +77,7 @@ jobs:
       with:
         working-directory: ./genrefy
         start: npm start
-        wait-on: 'http://localhost:4200'
+        wait-on: 'http://127.0.0.1:4200'
         wait-on-timeout: 120
         
     - name: Run Selenium UI tests
