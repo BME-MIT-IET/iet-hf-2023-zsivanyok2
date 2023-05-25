@@ -77,11 +77,6 @@ jobs:
       run: |
         npm start &
         npx wait-on http://localhost:4200 -t 100000 && echo 'Server responded!'
-        
-    - name: Check local files
-      run: |
-        cd C:\Program Files (x86)\
-        dir
     
     - name: Run Selenium UI tests
       working-directory: ./genrefy_ui_tests
