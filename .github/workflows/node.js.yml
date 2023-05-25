@@ -13,7 +13,7 @@ on:
 
 jobs:
   build_and_tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     strategy:
       matrix:
@@ -48,39 +48,42 @@ jobs:
       working-directory: ./genrefy
       run: npm run build --if-present
       
-    ## --- UI Testing ---
-    #
-    ## Install all Python dependencies  
-    #- name: Use Python ${{ matrix.python-version }}
-    #  uses: actions/setup-python@v4
-    #  with:
-    #    python-version: ${{ matrix.python-version }}
-    #    cache: 'pip'
-    #
-    #- name: Install Python dependencies
-    #  working-directory: ./genrefy_ui_tests
+    # --- UI Testing ---
+    
+    # Install all Python dependencies  
+    - name: Use Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    
+    - name: Install Python dependencies
+      working-directory: ./genrefy_ui_tests
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+        pip install beautifulsoup4
+        pip install selenium
+    
+    # Install a browser to run ui tests
+    #- name: Install latest Google Chrome browser
     #  run: |
-    #    python -m pip install --upgrade pip
-    #    pip install requests
-    #    pip install beautifulsoup4
-    #    pip install selenium
-    #
-    ## Install a browser to run ui tests
-    ##- name: Install latest Google Chrome browser
-    ##  run: |
-    ##    sudo apt update
-    ##    sudo apt --only-upgrade install google-chrome-stable
-    ##    google-chrome --version
-    #  
-    #- name: Start and wait for local Node.js server
-    #  working-directory: ./genrefy
-    #  run: |
-    #    npm start &
-    #    npx wait-on http://localhost:4200 -t 100000 && echo 'Server responded!'
-    #
-    #- name: Run Selenium UI tests
-    #  working-directory: ./genrefy_ui_tests
-    #  run: python main.py
-    #  
+    #    sudo apt update
+    #    sudo apt --only-upgrade install google-chrome-stable
+    #    google-chrome --version
+      
+    - name: Start and wait for local Node.js server
+      working-directory: ./genrefy
+      run: |
+        npm start &
+        npx wait-on http://localhost:4200 -t 100000 && echo 'Server responded!'
+        
+    - name: Get local IP
+      run: ipconfig
+    
+    - name: Run Selenium UI tests
+      working-directory: ./genrefy_ui_tests
+      run: python main.py
+      
     
     
