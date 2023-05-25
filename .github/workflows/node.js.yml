@@ -86,11 +86,10 @@ jobs:
     - name: Run UI Tests
       uses: BerniWittmann/background-server-action@v1
       with:
-        working-directory: ./genrefy
-        command: python ../genrefy_ui_tests/main.py:windows
-        command-windows: python ../genrefy_ui_tests/main.py:windows
+        cwd: ./genrefy
+        command: python ../genrefy_ui_tests/main.py
         start: npm run start
-        start-windows: npm run start:windows
+        wait-on: 'http://localhost:4200'
     
     #- name: Run Selenium UI tests
     #  working-directory: ./genrefy_ui_tests
