@@ -72,18 +72,29 @@ jobs:
     #    sudo apt --only-upgrade install google-chrome-stable
     #    google-chrome --version
       
-    - name: Start and wait for local Node.js server
-      working-directory: ./genrefy
-      run: |
-        npm start &
-        npx wait-on --timeout 60000 http://localhost:4200 && echo 'Wait done.'
-        
-    - name: Get local IP
-      run: ipconfig
+    #- name: Start and wait for local Node.js server
+    #  working-directory: ./genrefy
+    #  run: npm start
+    #  
+    #- name: Sleep for 60 seconds
+    #  run: Start-Sleep -s 60
+    #  shell: powershell
+    #    
+    #- name: Get local IP
+    #  run: ipconfig
+      
+    - name: Run UI Tests
+      uses: BerniWittmann/background-server-action@v1
+      with:
+        working-directory: ./genrefy
+        command: python ../genrefy_ui_tests/main.py:windows
+        command-windows: python ../genrefy_ui_tests/main.py:windows
+        start: npm run start
+        start-windows: npm run start:windows
     
-    - name: Run Selenium UI tests
-      working-directory: ./genrefy_ui_tests
-      run: python main.py
+    #- name: Run Selenium UI tests
+    #  working-directory: ./genrefy_ui_tests
+    #  run: python main.py
       
     
     
