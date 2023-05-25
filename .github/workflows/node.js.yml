@@ -68,17 +68,12 @@ jobs:
         sudo apt update
         sudo apt --only-upgrade install google-chrome-stable
         google-chrome --version
-    
-    - name: Checkout
-      uses: actions/checkout@v3
       
     - name: Start and wait for local Node.js server
-      uses: cypress-io/github-action@v5
-      with:
-        working-directory: ./genrefy
-        start: npm start
-        wait-on: 'http://[::1]:4200'
-        wait-on-timeout: 120
+      working-directory: ./genrefy
+      run: |
+        npm start &
+        npx wait-on http://localhost:4200 -t 100000 && echo 'Server responded!'
         
     - name: Run Selenium UI tests
       working-directory: ./genrefy_ui_tests
