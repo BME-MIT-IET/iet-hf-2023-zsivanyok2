@@ -74,6 +74,7 @@ jobs:
     - name: Start and wait for local Node.js server
       uses: cypress-io/github-action@v5
       with:
+        working-directory: ./genrefy
         start: npm start
         wait-on: 'http://localhost:4200'
         wait-on-timeout: 120
