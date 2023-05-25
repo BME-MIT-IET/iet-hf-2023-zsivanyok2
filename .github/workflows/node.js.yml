@@ -76,7 +76,7 @@ jobs:
       working-directory: ./genrefy
       run: |
         npm start &
-        npx wait-on http://localhost:4200 -t 100000 && echo 'Server responded!'
+        npx wait-on --timeout 60000 http://localhost:4200 && echo 'Wait done.'
         
     - name: Get local IP
       run: ipconfig
