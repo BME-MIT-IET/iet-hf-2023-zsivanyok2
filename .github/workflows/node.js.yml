@@ -7,19 +7,23 @@ on:
     # After testing it must set to the branch containing the release files/version 
     branches: [ "github-actions" ]
 
-defaults:
-  run:
-    working-directory: genrefy
+#defaults:
+#  run:
+#    working-directory: genrefy
 
 jobs:
-  npm_install_and_build:
-    runs-on: ubuntu-latest
+  build_and_tests:
+    runs-on: windows-latest
 
     strategy:
       matrix:
         node-version: [18.12.1]
+        python-version: [3.11]
 
     steps:
+    # Setup chrome for later testing
+    - uses: browser-actions/setup-chrome@v1
+    
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -30,8 +34,9 @@ jobs:
         cache: 'npm'
         cache-dependency-path: genrefy/package-lock.json
         #package-lock.json must be added manually because it is not present in the root folder
-        
-    - name: Install dependencies
+    
+    - name: Install Node.js dependencies
+      working-directory: ./genrefy
       run: npm ci
     
     # Do we want to use lint-ing?
@@ -40,4 +45,41 @@ jobs:
     #  run: npm run lint
     
     - name: Build project
+      working-directory: ./genrefy
       run: npm run build --if-present
+      
+    # --- UI Testing ---
+    
+    # Install all Python dependencies  
+    - name: Use Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    
+    - name: Install Python dependencies
+      working-directory: ./genrefy_ui_tests
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+        pip install beautifulsoup4
+        pip install selenium
+    
+    # Install a browser to run ui tests
+    #- name: Install latest Google Chrome browser
+    #  run: |
+    #    sudo apt update
+    #    sudo apt --only-upgrade install google-chrome-stable
+    #    google-chrome --version
+      
+    - name: Start and wait for local Node.js server
+      working-directory: ./genrefy
+      run: |
+        npm start &
+        npx wait-on http://localhost:4200 -t 100000 && echo 'Server responded!'
+    
+    - name: Run Selenium UI tests
+      working-directory: ./genrefy_ui_tests
+      run: python main.py
+      
+    
