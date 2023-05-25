@@ -72,12 +72,11 @@ jobs:
       uses: actions/checkout@v3
       
     - name: Start and wait for local Node.js server
-      uses: ./
+      uses: cypress-io/github-action@v5
       with:
-        working-directory: ./genrefy
         start: npm start
         wait-on: 'http://localhost:4200'
-        wait-on-timeout: 100
+        wait-on-timeout: 120
         
     - name: Run Selenium UI tests
       working-directory: ./genrefy_ui_tests
