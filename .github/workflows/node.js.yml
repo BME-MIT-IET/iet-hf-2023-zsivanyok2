@@ -87,7 +87,10 @@ jobs:
       uses: BerniWittmann/background-server-action@v1
       with:
         cwd: ./genrefy
-        command: python ../genrefy_ui_tests/main.py
+        command: |
+          ps -a 
+          netstat
+          python ../genrefy_ui_tests/main.py
         start: npm run start
         wait-on: 'http://localhost:4200'
     
