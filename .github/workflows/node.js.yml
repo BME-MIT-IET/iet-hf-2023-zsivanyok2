@@ -55,7 +55,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-        cache: 'pip'
+        cache: 'python'
     
     - name: Install Python dependencies
       working-directory: ./genrefy_ui_tests
@@ -66,37 +66,37 @@ jobs:
         pip install selenium
     
     # Install a browser to run ui tests
-    #- name: Install latest Google Chrome browser
-    #  run: |
-    #    sudo apt update
-    #    sudo apt --only-upgrade install google-chrome-stable
-    #    google-chrome --version
+    - name: Install latest Google Chrome browser
+      run: |
+        sudo apt update
+        sudo apt --only-upgrade install google-chrome-stable
+        google-chrome --version
       
-    #- name: Start and wait for local Node.js server
-    #  working-directory: ./genrefy
-    #  run: npm start
-    #  
-    #- name: Sleep for 60 seconds
-    #  run: Start-Sleep -s 60
-    #  shell: powershell
-    #    
-    #- name: Get local IP
-    #  run: ipconfig
+    - name: Start and wait for local Node.js server
+      working-directory: ./genrefy
+      run: |
+        npm start &
+        npx wait-on http://localhost:4200 --timeout 100000
+        
+    - name: Debug informations
+      run: |
+        ps -a
+        netstat
       
-    - name: Run UI Tests
-      uses: BerniWittmann/background-server-action@v1
-      with:
-        cwd: ./genrefy
-        command: |
-          ps -a 
-          netstat
-          python ../genrefy_ui_tests/main.py
-        start: npm run start
-        wait-on: 'http://localhost:4200'
+    #- name: Run UI Tests
+    #  uses: BerniWittmann/background-server-action@v1
+    #  with:
+    #    cwd: ./genrefy
+    #    command: |
+    #      ps -a 
+    #      netstat
+    #      python ../genrefy_ui_tests/main.py
+    #    start: npm run start
+    #    wait-on: 'http://localhost:4200'
     
-    #- name: Run Selenium UI tests
-    #  working-directory: ./genrefy_ui_tests
-    #  run: python main.py
+    - name: Run Selenium UI tests
+      working-directory: ./genrefy_ui_tests
+      run: python main.py
       
     
     
