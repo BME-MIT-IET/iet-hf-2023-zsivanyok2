@@ -22,7 +22,8 @@ jobs:
 
     steps:
     # Setup chrome for later testing
-    - uses: browser-actions/setup-chrome@v1
+    # - uses: browser-actions/setup-chrome@v1
+    - uses: nanasess/setup-chromedriver@v2
     
     - name: Checkout
       uses: actions/checkout@v3
@@ -64,13 +65,6 @@ jobs:
         pip install requests
         pip install beautifulsoup4
         pip install selenium
-    
-    # Install a browser to run ui tests
-    - name: Install latest Google Chrome browser
-      run: |
-        winget
-        winget search chrome
-        winget install Google.Chrome
       
     - name: Start and wait for local Node.js server
       working-directory: ./genrefy
