@@ -68,9 +68,9 @@ jobs:
     # Install a browser to run ui tests
     - name: Install latest Google Chrome browser
       run: |
-        sudo apt update
-        sudo apt --only-upgrade install google-chrome-stable
-        google-chrome --version
+        winget
+        winget search chrome
+        winget install Google.Chrome
       
     - name: Start and wait for local Node.js server
       working-directory: ./genrefy
