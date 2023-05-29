@@ -80,7 +80,7 @@ jobs:
         
     - name: Debug informations
       run: |
-        ps -a
+        ps -aux
         netstat
       
     #- name: Run UI Tests
