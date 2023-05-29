@@ -74,7 +74,7 @@ jobs:
         
     - name: Debug informations
       run: |
-        Get-Process | Out-GridView
+        tasklist
         netstat
       
     #- name: Run UI Tests
