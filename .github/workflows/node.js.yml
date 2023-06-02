@@ -1,0 +1,95 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code
+
+name: Genrefy CI - Node Install and Build
+on:
+  push:
+    branches: [ "main" ]
+
+#defaults:
+#  run:
+#    working-directory: genrefy
+
+jobs:
+  build_and_tests:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [18.12.1]
+        python-version: [3.11]
+
+    steps:
+    # Setup chrome for later testing
+    # - uses: browser-actions/setup-chrome@v1
+    # - uses: nanasess/setup-chromedriver@v2
+    
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: genrefy/package-lock.json
+        #package-lock.json must be added manually because it is not present in the root folder
+    
+    - name: Install Node.js dependencies
+      working-directory: ./genrefy
+      run: npm ci
+    
+    - name: Build project
+      working-directory: ./genrefy
+      run: npm run build --if-present
+      
+    # --- Unit Testing ---
+    - name: Unit testing
+      working-directory: ./genrefy
+      run: npm run ng test -- --watch=false 
+      
+    # --- UI Testing ---
+    # ERROR: Can not connect to the local server, and it keeps failing with connection issues...
+    
+    ## Install all Python dependencies  
+    #- name: Use Python ${{ matrix.python-version }}
+    #  uses: actions/setup-python@v4
+    #  with:
+    #    python-version: ${{ matrix.python-version }}
+    #    cache: 'pip'
+    #
+    #- name: Install Python dependencies
+    #  working-directory: ./genrefy_ui_tests
+    #  run: |
+    #    python -m pip install --upgrade pip
+    #    pip install requests
+    #    pip install beautifulsoup4
+    #    pip install selenium
+    #  
+    #- name: Start and wait for local Node.js server
+    #  working-directory: ./genrefy
+    #  run: |
+    #    npm start &
+    #    npx wait-on http://localhost:4200 --timeout 100000
+    #    
+    #- name: Debug informations
+    #  run: |
+    #    tasklist
+    #    netstat
+      
+    #- name: Run UI Tests
+    #  uses: BerniWittmann/background-server-action@v1
+    #  with:
+    #    cwd: ./genrefy
+    #    command: |
+    #      ps -a 
+    #      netstat
+    #      python ../genrefy_ui_tests/main.py
+    #    start: npm run start
+    #    wait-on: 'http://localhost:4200'
+    
+    #- name: Run Selenium UI tests
+    #  working-directory: ./genrefy_ui_tests
+    #  run: python main.py
+      
+    
+    

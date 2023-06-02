@@ -14,7 +14,7 @@ from unittest import mock
 class GenrefySearch(unittest.TestCase):
 
     def setUp(self):
-        self.driver = webdriver.Chrome("C:\Program Files (x86)\chromedrive.exe")
+        self.driver = webdriver.Chrome()
         self.driver.get("http://localhost:4200")
     
     # def test_test(self):
