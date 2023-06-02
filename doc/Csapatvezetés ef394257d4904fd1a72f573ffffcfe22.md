@@ -53,4 +53,8 @@ A házi feladatunk során én vállaltam azt a szerepet, hogy összefogom a csap
 
 A házi feladat során mélyebb betekintést nyertem a unit, UI és manuális tesztek készítésébe a csapattársaimmal való konzultáció során. A github actions felületét is sokkal jobban átlátom és sok érdekes információt megtudtam a Kornéllal való beszélgetés során, ahogy az éppen aktuális CI problémákról számolt be. Mindezek mellett a csapat vezetésével remek project management tapasztalatot szereztem és azt is sikerült megtanulnom, hogy hogyan kell egy jól átlátható és használható github felületet kialakítani.
 
-A projekttel összesen 20 órát foglalkoztam a saját beszámolóim és munkanaplóm adminisztrálásán felül.
+A projekttel összesen 20 órát foglalkoztam a saját beszámolóim és munkanaplóm adminisztrálásán felül. 
+
+## Megjegyzés
+
+A github felületén én nem tudtam a feladatom jellege miatt túl sok commit-ot feltölteni, viszont ahol nem kommunikáltunk valamit félre, ott az én nevem szerepel az issue-k létrehozásánál, a pull request-ek elfogadásánál és a review-knál is
